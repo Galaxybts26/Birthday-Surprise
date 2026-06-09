@@ -1,265 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Perfect Sunflower Scene</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunflower Scene</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: radial-gradient(circle at top, #fff7b2, #6ec6ff);
-    font-family: sans-serif;
-  }
+    body { 
+      font-family: var(--font-sans); 
+      overflow: hidden;
+    }
 
-  .scene {
-    text-align: center;
-  }
+    /* Scene container now fills the entire window */
+    #scene-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-  /* 🌻 container */
-  .flower-wrap {
-    width: 320px;
-    height: 320px;
-    transform: scale(0.2);
-    opacity: 0;
-    transition: all 2s ease;
-  }
+    .scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
 
-  .flower-wrap.show {
-    transform: scale(1);
-    opacity: 1;
-  }
+    /* Scene 9 full background — warm day sky */
+    #scene9 { background: linear-gradient(180deg, #87CEEB 0%, #fffde0 60%, #8BC34A 100%); }
 
-  /* 🌼 center pulse */
-  .center {
-    animation: pulse 2s infinite ease-in-out;
-    transform-origin: center;
-  }
-
-  @keyframes pulse {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-  }
-
-  /* 🌟 petals bloom */
-  .petal {
-    transform-origin: 160px 160px;
-    transform: scale(0);
-    opacity: 0;
-  }
-
-  .petal.show {
-    animation: bloom 1.2s ease-out forwards;
-  }
-
-  @keyframes bloom {
-    0% {
-      transform: rotate(var(--r)) scale(0);
+    .flower-wrap {
+      transform: scale(0.1) translateY(60px);
       opacity: 0;
+      transition: transform 1.8s cubic-bezier(0.34,1.56,0.64,1), opacity 1.2s ease;
     }
-    100% {
-      transform: rotate(var(--r)) scale(1);
-      opacity: 1;
+    .flower-wrap.bloomed { transform: scale(1) translateY(0); opacity: 1; }
+
+    .petal { transform-origin: 160px 160px; opacity: 0; transform: rotate(var(--r)) scale(0); }
+    .petal.open { animation: petalBloom 1s ease-out forwards; }
+
+    @keyframes petalBloom {
+      0% { transform: rotate(var(--r)) scale(0); opacity: 0; }
+      60% { opacity: 1; }
+      100% { transform: rotate(var(--r)) scale(1); opacity: 1; }
     }
-  }
 
-  /* 💛 message */
-  .msg {
-    margin-top: 20px;
-    font-size: 26px;
-    color: white;
-    font-weight: bold;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: 2s ease;
-    text-shadow: 0 0 10px rgba(0,0,0,0.3);
-  }
+    .center-pulse { animation: pulse 2.5s ease-in-out infinite; transform-origin: 160px 160px; }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.07)} }
 
-  .msg.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
+    .msg9 {
+      margin-top: 16px;
+      font-size: 24px;
+      font-weight: 500;
+      color: #5a2d00;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+      text-shadow: 0 1px 4px rgba(255,255,255,0.6);
+      max-width: 500px;
+    }
+    .msg9.show { opacity: 1; transform: translateY(0); }
+
+    .sub9 {
+      margin-top: 8px;
+      font-size: 15px;
+      color: #7a4820;
+      opacity: 0;
+      text-align: center;
+      transition: opacity 1s ease 0.3s;
+    }
+    .sub9.show { opacity: 1; }
+
+    .continue-btn {
+      margin-top: 24px;
+      padding: 12px 32px;
+      font-size: 16px;
+      font-weight: 500;
+      border: 1.5px solid #c8860a;
+      border-radius: 999px;
+      background: rgba(255,200,60,0.18);
+      color: #7a4a00;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s, background 0.2s;
+      backdrop-filter: blur(4px);
+      text-decoration: none; /* Keeps looks uniform if it acts as a link */
+    }
+    .continue-btn.show { opacity: 1; transform: translateY(0); }
+    .continue-btn:hover { background: rgba(255,200,60,0.38); }
+    .continue-btn:active { transform: scale(0.97) translateY(0); }
+
+    #flowerSvg:hover .center-pulse { filter: drop-shadow(0 0 8px #ffcc00); }
+
+    .pollen-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      pointer-events: none;
+      width: 100%; height: 100%;
+    }
+
+    .click-hint {
+      font-size: 13px;
+      color: #7a4820;
+      opacity: 0;
+      margin-top: 6px;
+      transition: opacity 0.8s ease 1s;
+      text-align: center;
+    }
+    .click-hint.show { opacity: 0.7; }
+  </style>
 </head>
-
 <body>
 
-<div class="scene">
+<div id="scene-container">
 
-  <div class="flower-wrap" id="flower">
+  <div id="scene9" class="scene">
+    <canvas class="pollen-canvas" id="pollen-canvas"></canvas>
 
-    <!-- 🌻 PERFECT SUNFLOWER SVG -->
-    <svg width="320" height="320" viewBox="0 0 320 320">
+    <div class="flower-wrap" id="flower">
+      <svg id="flowerSvg" width="280" height="320" viewBox="0 0 320 340" style="cursor:pointer" onclick="onFlowerClick(event)">
+        <path d="M160 330 C150 270,145 220,155 180 C165 140,175 100,165 55" stroke="#2e7d32" stroke-width="14" fill="none" stroke-linecap="round"/>
+        <path d="M152 230 C90 205,82 265,152 272 C122 252,132 238,152 230" fill="#43a047"/>
+        <path d="M168 205 C238 182,248 252,168 268 C198 248,192 225,168 205" fill="#388e3c"/>
 
-  <!-- 🌿 STEM -->
-  <!-- 🌿 STEM (UPGRADED BIG VERSION) -->
-<path
-  d="M160 320 
-     C150 260, 145 220, 155 180 
-     C165 140, 175 100, 165 50"
-  stroke="#1b5e20"
-  stroke-width="16"
-  fill="none"
-  stroke-linecap="round"
-  stroke-linejoin="round"
-/>
+        <g id="inner-petals">
+          <g class="petal" style="--r:7.5deg"><ellipse cx="160" cy="88" rx="11" ry="40" fill="#ff8f00"/></g>
+          <g class="petal" style="--r:22.5deg"><ellipse cx="160" cy="88" rx="11" ry="40" fill="#ffa000"/></g>
+          <g class="petal" style="--r:37.5deg"><ellipse cx="160" cy="88" rx="11" ry="40" fill="#ff8f00"/></g>
+          <g class="petal" style="--r:52.5deg"><ellipse cx="160" cy="88" rx="11" ry="40" fill="#ffa000"/></g>
+          <g class="petal" style="--r:67.5deg"><ellipse cx="160" cy="88" rx="11" ry="40" fill="#ff8f00"/></g>
+          <g class="petal" style="--r:82.5deg"><ellipse cx="160" cy="88" rx="11" ry="40" fill="#ffa000"/></g>
+          <g class="petal" style="--r:97.5deg"><ellipse cx="160" cy="88" rx="11" ry="40" fill="#ff8f00"/></g>
+          <g class="petal" style="--r:112.5deg"><ellipse cx="160" cy="88" rx="11" ry="40" fill="#ffa000"/></g>
+          <g class="petal" style="--r:127.5deg"><ellipse cx="160" cy="88" rx="11" ry="40" fill="#ff8f00"/></g>
+          <g class="petal" style="--r:142.5deg"><ellipse cx="160" cy="88" rx="11" ry="40" fill="#ffa000"/></g>
+          <g class="petal" style="--r:157.5deg"><ellipse cx="160" cy="88" rx="11" ry="40" fill="#ff8f00"/></g>
+          <g class="petal" style="--r:172.5deg"><ellipse cx="160" cy="88" rx="11" ry="40" fill="#ffa000"/></g>
+        </g>
 
-  <!-- 🍃 LEFT LEAF -->
-  <path
-    d="M150 220
-       C90 200, 80 260, 150 270
-       C120 250, 130 230, 150 220"
-    fill="#2ecc71"
-  />
+        <g id="outer-petals">
+          <g class="petal" style="--r:0deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffcc00"/></g>
+          <g class="petal" style="--r:15deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffd740"/></g>
+          <g class="petal" style="--r:30deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffcc00"/></g>
+          <g class="petal" style="--r:45deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffd740"/></g>
+          <g class="petal" style="--r:60deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffb300"/></g>
+          <g class="petal" style="--r:75deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffc400"/></g>
+          <g class="petal" style="--r:90deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffcc00"/></g>
+          <g class="petal" style="--r:105deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffd740"/></g>
+          <g class="petal" style="--r:120deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffb300"/></g>
+          <g class="petal" style="--r:135deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffc400"/></g>
+          <g class="petal" style="--r:150deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffcc00"/></g>
+          <g class="petal" style="--r:165deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffd740"/></g>
+          <g class="petal" style="--r:180deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffb300"/></g>
+          <g class="petal" style="--r:195deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffc400"/></g>
+          <g class="petal" style="--r:210deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffcc00"/></g>
+          <g class="petal" style="--r:225deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffd740"/></g>
+          <g class="petal" style="--r:240deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffb300"/></g>
+          <g class="petal" style="--r:255deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffc400"/></g>
+          <g class="petal" style="--r:270deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffcc00"/></g>
+          <g class="petal" style="--r:285deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffd740"/></g>
+          <g class="petal" style="--r:300deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffb300"/></g>
+          <g class="petal" style="--r:315deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffc400"/></g>
+          <g class="petal" style="--r:330deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffcc00"/></g>
+          <g class="petal" style="--r:345deg"><ellipse cx="160" cy="72" rx="16" ry="52" fill="#ffd740"/></g>
+        </g>
 
-  <!-- 🍃 RIGHT LEAF -->
-  <path
-    d="M170 200
-       C240 180, 250 250, 170 270
-       C200 245, 190 220, 170 200"
-    fill="#27ae60"
-  />
+        <circle cx="160" cy="160" r="58" fill="#4e2a0a"/>
+        <circle cx="160" cy="160" r="50" fill="#3b2000"/>
+        <circle class="center-pulse" cx="160" cy="160" r="42" fill="#2d1600"/>
 
-  <!-- 🌻 PETALS -->
-  <g id="petals">
+        <g opacity="0.55">
+          <circle cx="160" cy="140" r="2.5" fill="#a0722a"/>
+          <circle cx="172" cy="148" r="2.5" fill="#a0722a"/>
+          <circle cx="174" cy="162" r="2.5" fill="#a0722a"/>
+          <circle cx="165" cy="173" r="2.5" fill="#a0722a"/>
+          <circle cx="152" cy="171" r="2.5" fill="#a0722a"/>
+          <circle cx="146" cy="160" r="2.5" fill="#a0722a"/>
+          <circle cx="150" cy="149" r="2.5" fill="#a0722a"/>
+          <circle cx="160" cy="160" r="3" fill="#c8922a"/>
+        </g>
+      </svg>
+    </div>
 
-    <g class="petal" style="--r:0deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:15deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:30deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:45deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:60deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
-    </g>
-
-    <g class="petal" style="--r:75deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
-    </g>
-
-    <g class="petal" style="--r:90deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:105deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:120deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
-    </g>
-
-    <g class="petal" style="--r:135deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
-    </g>
-
-    <g class="petal" style="--r:150deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:165deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:180deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
-    </g>
-
-    <g class="petal" style="--r:195deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
-    </g>
-
-    <g class="petal" style="--r:210deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:225deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:240deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
-    </g>
-
-    <g class="petal" style="--r:255deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
-    </g>
-
-    <g class="petal" style="--r:270deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:285deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:300deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
-    </g>
-
-    <g class="petal" style="--r:315deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
-    </g>
-
-    <g class="petal" style="--r:330deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-    <g class="petal" style="--r:345deg">
-      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
-    </g>
-
-  </g>
-
-  <!-- 🌼 CENTER -->
-  <circle class="center" cx="160" cy="160" r="55" fill="#3b2a14"/>
-
-</svg>
-
-  </div>
-
-  <div class="msg" id="msg">
-    🌻 For Harshita — You are my sunshine in every universe 🕯️💛
+    <div class="msg9" id="msg9">For Harshita — you are my sunshine in every universe</div>
+    <div class="sub9" id="sub9">Click the sunflower to feel the warmth</div>
+    <div class="click-hint" id="click-hint">tap anywhere on the flower</div>
+    
+    <a href="scene10.html" class="continue-btn" id="cont-btn">Continue the story &rarr;</a>
   </div>
 
 </div>
 
 <script>
-  const flower = document.getElementById("flower");
-  const petals = document.querySelectorAll(".petal");
-  const msg = document.getElementById("msg");
+  const flowerWrap = document.getElementById('flower');
+  const allPetals = document.querySelectorAll('.petal');
+  const msg9 = document.getElementById('msg9');
+  const sub9 = document.getElementById('sub9');
+  const contBtn = document.getElementById('cont-btn');
+  const clickHint = document.getElementById('click-hint');
+  let pollenActive = false;
+  let pollenParticles = [];
 
-  window.onload = () => {
+  // ---- Bloom sequence on load ----
+  setTimeout(() => {
+    flowerWrap.classList.add('bloomed');
+    allPetals.forEach((p, i) => {
+      setTimeout(() => p.classList.add('open'), i * 55 + 300);
+    });
+  }, 400);
 
-    setTimeout(() => {
-      flower.classList.add("show");
+  setTimeout(() => { msg9.classList.add('show'); }, 2200);
+  setTimeout(() => { sub9.classList.add('show'); }, 3000);
+  setTimeout(() => { clickHint.classList.add('show'); }, 3400);
+  setTimeout(() => { contBtn.classList.add('show'); }, 3600);
 
-      petals.forEach((p, i) => {
-        setTimeout(() => {
-          p.classList.add("show");
-        }, i * 80);
+  // ---- Pollen canvas ----
+  const canvas = document.getElementById('pollen-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  function spawnPollen(cx, cy, count) {
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 1.5 + Math.random() * 2.5;
+      pollenParticles.push({
+        x: cx, y: cy,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 2,
+        r: 2 + Math.random() * 3,
+        life: 1,
+        decay: 0.012 + Math.random() * 0.015,
+        color: `hsl(${42 + Math.random()*20}, 100%, ${55 + Math.random()*20}%)`
       });
+    }
+  }
 
-    }, 600);
+  function drawPollen() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pollenParticles = pollenParticles.filter(p => p.life > 0);
+    pollenParticles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.04;
+      p.vx *= 0.99;
+      p.life -= p.decay;
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    if (pollenParticles.length > 0) requestAnimationFrame(drawPollen);
+  }
 
+  function onFlowerClick(e) {
+    const rect = canvas.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    spawnPollen(cx, cy, 40);
+    if (!pollenActive) { pollenActive = true; drawPollen(); }
+    pollenActive = false;
+    setTimeout(() => { if (pollenParticles.length > 0) drawPollen(); }, 50);
+
+    flowerWrap.style.transition = 'transform 0.1s ease';
+    flowerWrap.style.transform = 'scale(1) rotate(3deg)';
     setTimeout(() => {
-      msg.classList.add("show");
-    }, 2500);
-  };
+      flowerWrap.style.transform = 'scale(1) rotate(-3deg)';
+      setTimeout(() => {
+        flowerWrap.style.transform = 'scale(1) rotate(0deg)';
+        flowerWrap.style.transition = 'transform 1.8s cubic-bezier(0.34,1.56,0.64,1), opacity 1.2s ease';
+      }, 100);
+    }, 100);
+    drawPollen();
+  }
 </script>
 
 </body>
