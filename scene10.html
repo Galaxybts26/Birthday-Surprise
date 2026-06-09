@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Final Birthday Scene</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(circle at top, #ffe6f0, #b3e5ff);
+    font-family: sans-serif;
+  }
+
+  /* 🌟 SCENE */
+  .scene {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 🎬 START SCREEN */
+  .start-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  /* ✨ GLITTER */
+  .glitter {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    top: -10px;
+    animation: fall 3s linear forwards;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-10px); opacity: 1; }
+    100% { transform: translateY(110vh); opacity: 0; }
+  }
+
+  /* 💬 HEADING POPUP (ABOVE CAKE) */
+  .popup {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: rgba(255,255,255,0.95);
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.5s ease;
+    z-index: 5;
+  }
+
+  .popup.show {
+    transform: translateX(-50%) scale(1);
+  }
+
+  /* 🎂 CAKE */
+  .cake {
+    position: relative;
+    width: 260px;
+    height: 220px;
+    margin-top: 20px;
+    transition: 1.5s ease;
+    z-index: 2;
+  }
+
+  .cake.hide {
+    opacity: 0;
+  }
+
+  /* 🍰 layers */
+  .layer1 {
+    position: absolute;
+    bottom: 0;
+    width: 260px;
+    height: 120px;
+    background: #fff;
+    border-radius: 20px;
+  }
+
+.layer2 {
+  position: absolute;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 100px;
+  background: #fff;
+  border-radius: 20px;
+}
+  .layer1::before,
+  .layer2::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    width: 100%;
+    height: 30px;
+    background: repeating-radial-gradient(circle, #ff80ab, #ff80ab 10px, #ffb3c7 10px, #ffb3c7 20px);
+    border-radius: 20px;
+  }
+
+  /* 🕯️ candles */
+.candle {
+  width: 6px;
+  height: 35px;
+  background: #ffd54f;
+  position: absolute;
+  top: -55px;
+  border-radius: 3px;
+}
+
+/* 🔥 flame */
+.flame {
+  width: 10px;
+  height: 10px;
+  background: orange;
+  border-radius: 50%;
+  position: absolute;
+  top: -10px;
+  left: -2px;
+  animation: flicker 0.4s infinite;
+}
+
+/* 🎯 FIXED ORIENTATION SYSTEM */
+.c1  { left: 20px; }
+.c2  { left: 35px; }
+.c3  { left: 50px; }
+.c4  { left: 65px; }
+.c5  { left: 80px; }
+.c6  { left: 120px; }
+.c7  { left: 135px; }
+.c8  { left: 150px; }
+.c9  { left: 165px; }
+.c10 { left: 180px; }
+  @keyframes flicker {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.6; }
+  }
+
+  .c1 { left: 40px; }
+  .c2 { left: 55px; }
+  .c3 { left: 70px; }
+  .c4 { left: 85px; }
+  .c5 { left: 100px; }
+  .c6 { left: 150px; }
+  .c7 { left: 165px; }
+  .c8 { left: 180px; }
+  .c9 { left: 195px; }
+  .c10 { left: 210px; }
+
+  /* 🔥 flame out */
+  .flame.out {
+    animation: blowOut 0.6s forwards;
+  }
+
+  @keyframes blowOut {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0); }
+  }
+
+  /* 💨 BUTTON (BOTTOM SAFE AREA) */
+  .blow-btn {
+    position: absolute;
+    bottom: 50px;
+    padding: 12px 18px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 5;
+  }
+
+  /* 💛 FINAL MESSAGE (BOTTOM) */
+  .final-msg {
+    position: absolute;
+    bottom: 120px;
+    text-align: center;
+    width: 100%;
+    font-size: 26px;
+    color: white;
+    font-weight: bold;
+    opacity: 0;
+    transition: 2s ease;
+    text-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+
+  .final-msg.show {
+    opacity: 1;
+  }
+
+</style>
+</head>
+
+<body>
+
+<div class="start-screen" id="startScreen" onclick="startScene()">
+🎉 Tap to Start Celebration 🎉
+</div>
+
+<div class="scene">
+
+  <!-- 💬 POPUP ABOVE CAKE -->
+  <div class="popup" id="popup">
+    💨 Blow candles & make a wish 💨
+  </div>
+
+  <!-- 🎂 CAKE -->
+  <div class="cake" id="cake">
+
+    <div class="layer2">
+
+      <div class="candle c1"><div class="flame"></div></div>
+      <div class="candle c2"><div class="flame"></div></div>
+      <div class="candle c3"><div class="flame"></div></div>
+      <div class="candle c4"><div class="flame"></div></div>
+      <div class="candle c5"><div class="flame"></div></div>
+
+      <div class="candle c6"><div class="flame"></div></div>
+      <div class="candle c7"><div class="flame"></div></div>
+      <div class="candle c8"><div class="flame"></div></div>
+      <div class="candle c9"><div class="flame"></div></div>
+      <div class="candle c10"><div class="flame"></div></div>
+
+    </div>
+
+    <div class="layer1"></div>
+  </div>
+
+  <!-- 💨 BUTTON -->
+  <div class="blow-btn" onclick="blowCandles()">Blow Candles 💨</div>
+
+  <!-- 💛 FINAL MESSAGE -->
+  <div class="final-msg" id="finalMsg">
+    🎉 Happy Birthday Harshita 💛<br>
+You’re the sunflower that always finds the light, 
+        even on my darkest day 🕯️✨✨  </div>
+
+</div>
+
+<script>
+
+function startScene() {
+
+  document.getElementById("startScreen").style.display = "none";
+
+  // ✨ glitter
+  for (let i = 0; i < 60; i++) {
+    let g = document.createElement("div");
+    g.className = "glitter";
+    g.style.left = Math.random() * window.innerWidth + "px";
+    g.style.animationDuration = (2 + Math.random() * 2) + "s";
+    document.body.appendChild(g);
+  }
+
+  setTimeout(() => {
+    document.getElementById("cake").classList.add("show");
+  }, 1000);
+
+  setTimeout(() => {
+    document.getElementById("popup").classList.add("show");
+  }, 2200);
+}
+
+function blowCandles() {
+
+  document.querySelector(".blow-btn").style.display = "none";
+  document.getElementById("popup").style.display = "none";
+
+  const flames = document.querySelectorAll(".flame");
+
+  flames.forEach((f, i) => {
+    setTimeout(() => {
+      f.classList.add("out");
+    }, i * 80);
+  });
+
+  setTimeout(() => {
+    document.getElementById("finalMsg").classList.add("show");
+  }, 900);
+}
+
+</script>
+
+</body>
+</html>

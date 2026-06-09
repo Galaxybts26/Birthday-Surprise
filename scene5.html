@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Stars Know Your Name</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    overflow:hidden;
+    height:100vh;
+
+    background:
+    radial-gradient(circle at center,
+    #1a237e,
+    #0d1117,
+    #000);
+
+    position:relative;
+}
+
+/* Title */
+
+.title{
+    position:absolute;
+    top:20px;
+    width:100%;
+    text-align:center;
+    color:white;
+    font-size:2rem;
+    z-index:100;
+}
+
+.subtitle{
+    position:absolute;
+    top:65px;
+    width:100%;
+    text-align:center;
+    color:#ffd700;
+    z-index:100;
+}
+
+.counter{
+    position:absolute;
+    top:100px;
+    width:100%;
+    text-align:center;
+    color:white;
+    z-index:100;
+}
+
+/* Stars */
+
+.star{
+    position:absolute;
+    color:white;
+    cursor:pointer;
+    user-select:none;
+    transition:.3s;
+    animation:twinkle 2s infinite;
+}
+
+.star:hover{
+    transform:scale(1.5);
+}
+
+@keyframes twinkle{
+
+    0%,100%{
+        opacity:.3;
+    }
+
+    50%{
+        opacity:1;
+    }
+
+}
+
+/* Compliment Box */
+
+.compliment{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:85%;
+    max-width:550px;
+
+    background:rgba(255,255,255,.12);
+
+    backdrop-filter:blur(15px);
+
+    color:white;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    display:none;
+
+    z-index:500;
+
+    animation:fadeIn .5s;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translate(-50%,-40%);
+    }
+
+    to{
+        opacity:1;
+        transform:translate(-50%,-50%);
+    }
+}
+
+/* Star Burst */
+
+.burst{
+
+    position:absolute;
+
+    pointer-events:none;
+
+    animation:burst .8s forwards;
+}
+
+@keyframes burst{
+
+    from{
+        opacity:1;
+        transform:scale(.5);
+    }
+
+    to{
+        opacity:0;
+        transform:scale(2);
+    }
+}
+
+/* Final Reveal */
+.reveal{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    opacity:0;
+    transition:2s;
+    z-index:800;
+}
+
+.mainName{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(80px,10vw,160px);
+    color:white;
+    white-space:nowrap;
+
+    text-shadow:
+        0 0 15px white,
+        0 0 30px gold,
+        0 0 50px gold;
+}
+
+.subName{
+    margin-top:10px;
+
+    font-family:'Dancing Script',cursive;
+
+    font-size:clamp(30px,4vw,55px);
+
+    color:#ffb74d;
+
+    text-shadow:
+        0 0 10px #ffcc80,
+        0 0 20px #ffb74d;
+}
+
+.heart{
+    position:absolute;
+    color:#ff80ab;
+    pointer-events:none;
+    animation:floatHeart 5s linear infinite;
+}
+
+@keyframes floatHeart{
+    from{
+        transform:translateY(0);
+        opacity:1;
+    }
+    to{
+        transform:translateY(-180px);
+        opacity:0;
+    }
+}
+
+.spark{
+    position:absolute;
+    color:gold;
+    pointer-events:none;
+    animation:sparkle 2s forwards;
+}
+
+@keyframes sparkle{
+    from{
+        opacity:1;
+        transform:scale(.5);
+    }
+    to{
+        opacity:0;
+        transform:scale(2);
+    }
+}
+/* Continue Button */
+
+.nextBtn{
+
+    position:absolute;
+
+    bottom:40px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    padding:15px 35px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:#ffd700;
+
+    color:black;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    display:none;
+
+    z-index:1000;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="title">
+🌌 The Stars Know Your Name 🌌
+</div>
+
+<div class="subtitle">
+Collect 12 magical stars ✨
+</div>
+
+<div class="counter">
+Collected:
+<span id="count">0</span>/12
+</div>
+
+<div id="complimentBox" class="compliment"></div>
+
+<button class="nextBtn" id="nextBtn">
+Continue →
+</button>
+
+<script>
+
+const compliments = [
+
+"💖 Your smile lights up every room.",
+"🌻 You bring sunshine wherever you go.",
+"✨ You make ordinary days magical.",
+"🦋 You make people feel comfortable.",
+"🌈 The world is brighter with you.",
+"⭐ You are unforgettable.",
+"🎂 Today is special because of you.",
+"💫 Your kindness is beautiful.",
+"🌷 You deserve every happiness.",
+"☀️ You radiate positivity.",
+"🥳 The universe celebrates you.",
+"👑 Birthday Queen Detected."
+
+];
+
+let collected = 0;
+const target = 12;
+
+/* Create Stars */
+
+for(let i=0;i<50;i++){
+
+    const star = document.createElement("div");
+
+    star.className = "star";
+
+    star.innerHTML = "⭐";
+
+    star.style.left =
+    Math.random()*95 + "vw";
+
+    star.style.top =
+    (15 + Math.random()*75) + "vh";
+
+    star.style.fontSize =
+    (15 + Math.random()*20) + "px";
+
+    star.addEventListener(
+        "click",
+        collectStar
+    );
+
+    document.body.appendChild(star);
+}
+
+function collectStar(e){
+
+    const star = e.target;
+
+    if(star.dataset.clicked ||
+       collected >= target)
+       return;
+
+    star.dataset.clicked = true;
+
+    collected++;
+
+    document
+    .getElementById("count")
+    .textContent = collected;
+
+    star.style.color = "gold";
+    star.style.transform = "scale(2)";
+    star.style.pointerEvents = "none";
+
+    createBurst(
+        star.offsetLeft,
+        star.offsetTop
+    );
+
+    const box =
+    document.getElementById("complimentBox");
+
+    box.innerHTML =
+    compliments[
+    (collected-1)%compliments.length
+    ];
+
+    box.style.display = "block";
+
+    setTimeout(()=>{
+        box.style.display = "none";
+    },3000);
+
+    if(collected === target){
+
+        setTimeout(
+            revealHarshita,
+            1500
+        );
+    }
+}
+
+function createBurst(x,y){
+
+    for(let i=0;i<8;i++){
+
+        const burst =
+        document.createElement("div");
+
+        burst.className = "burst";
+
+        burst.innerHTML = "✨";
+
+        burst.style.left = x+"px";
+        burst.style.top = y+"px";
+
+        document.body.appendChild(burst);
+
+        setTimeout(()=>{
+            burst.remove();
+        },800);
+    }
+}
+
+function revealHarshita(){
+    if(document.querySelector(".reveal"))
+    return;
+    const reveal = document.createElement("div");
+
+    reveal.className = "reveal";
+
+    reveal.innerHTML = `
+        <div class="mainName">
+            ✨ Harshita ✨
+        </div>
+
+        <div class="subName">
+           🌻 Miss Light For Mehh 🌻
+        </div>
+    `;
+
+    document.body.appendChild(reveal);
+
+    setTimeout(()=>{
+        reveal.style.opacity = "1";
+    },200);
+
+    // Floating hearts
+
+    const heartInterval = setInterval(()=>{
+
+        const heart =
+        document.createElement("div");
+
+        heart.className = "heart";
+
+        heart.innerHTML = "💖";
+
+        heart.style.left =
+        (45 + Math.random()*10) + "%";
+
+        heart.style.top = "60%";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+            heart.remove();
+        },5000);
+
+    },400);
+
+    // Sparkles around name
+
+    const sparkInterval = setInterval(()=>{
+
+        const spark =
+        document.createElement("div");
+
+        spark.className = "spark";
+
+        spark.innerHTML = "✨";
+
+        spark.style.left =
+        (35 + Math.random()*30) + "%";
+
+        spark.style.top =
+        (35 + Math.random()*20) + "%";
+
+        document.body.appendChild(spark);
+
+        setTimeout(()=>{
+            spark.remove();
+        },2000);
+
+    },300);
+    setTimeout(()=>{
+
+    document
+    .getElementById("nextBtn")
+    .style.display = "block";
+
+},2500);
+    setTimeout(()=>{
+
+    clearInterval(heartInterval);
+    clearInterval(sparkInterval);
+
+},15000);
+
+}
+document
+.getElementById("nextBtn")
+.addEventListener("click",()=>{
+
+    window.location.href =
+    "scene6.html";
+
+});
+
+</script>
+
+</body>
+</html>

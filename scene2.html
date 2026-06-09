@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BirthdayOS v1.0</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 540px;
+  }
+
+  /* ── Title ── */
+  .title {
+    color: #00ff99;
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    animation: glow 2s infinite;
+  }
+  @keyframes glow {
+    0%, 100% { text-shadow: 0 0 10px #00ff99; }
+    50%       { text-shadow: 0 0 28px #00ff99, 0 0 50px #00cc77; }
+  }
+
+  /* ── Task rows ── */
+  .task {
+    margin-bottom: 1.1rem;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .task.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .task-label {
+    color: #00ff99;
+    font-size: 0.88rem;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  .track {
+    width: 100%;
+    height: 14px;
+    background: #1a1a1a;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(0,255,153,0.2);
+  }
+  .fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00ff99, #00ffe0);
+    border-radius: 20px;
+    transition: width 0.04s linear;
+  }
+
+  /* ── Final panel ── */
+  .final {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    margin-top: 2.5rem;
+    animation: fadeIn 0.8s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .final h1 {
+    color: #00ffe0;
+    font-size: 1.3rem;
+    text-shadow: 0 0 16px #00ffe0;
+  }
+  .final h2 {
+    color: #00ff99;
+    font-size: 1.1rem;
+  }
+
+  /* ── Button ── */
+  .next-btn {
+    margin-top: 0.5rem;
+    padding: 13px 32px;
+    border: none;
+    border-radius: 50px;
+    background: #00ff99;
+    color: #0a0a0a;
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .next-btn:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 20px rgba(0,255,153,0.5);
+  }
+  .next-btn:active {
+    transform: scale(0.97);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="title">🌻 BirthdayOS v1.0 🌻</div>
+  <div id="taskList"></div>
+  <div class="final" id="final">
+    <h1>🥳 BIRTHDAY GIRL DETECTED</h1>
+    <h2>WELCOME HARSHITA 💖</h2>
+    <button class="next-btn" id="nextBtn">ENTER THE SUNFLOWER FIELD →</button>
+  </div>
+</div>
+
+<script>
+  const TASKS = [
+    "🌻 Collecting Sunshine",
+    "💖 Gathering Happiness",
+    "✨ Loading Memories",
+    "🎂 Baking Cake",
+    "🎁 Wrapping Gifts",
+    "🥳 Birthday Girl Found"
+  ];
+
+  const taskList = document.getElementById('taskList');
+  const finalPanel = document.getElementById('final');
+  const nextBtn = document.getElementById('nextBtn');
+
+  function runTask(index) {
+    // Create task row
+    const div = document.createElement('div');
+    div.className = 'task';
+    div.innerHTML = `
+      <div class="task-label">
+        <span>${TASKS[index]}</span>
+        <span id="pct${index}">0%</span>
+      </div>
+      <div class="track">
+        <div class="fill" id="fill${index}"></div>
+      </div>
+    `;
+    taskList.appendChild(div);
+
+    // Trigger slide-in
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => div.classList.add('visible'));
+    });
+
+    const fill = document.getElementById('fill' + index);
+    const pct  = document.getElementById('pct'  + index);
+    let value = 0;
+
+    const interval = setInterval(() => {
+      value += 2;
+      if (value > 100) value = 100;
+      fill.style.width  = value + '%';
+      pct.textContent   = value + '%';
+
+      if (value >= 100) {
+        clearInterval(interval);
+        if (index + 1 < TASKS.length) {
+          setTimeout(() => runTask(index + 1), 200);
+        } else {
+          setTimeout(showFinal, 700);
+        }
+      }
+    }, 30);
+  }
+
+  function showFinal() {
+    taskList.style.display = 'none';
+    finalPanel.style.display = 'flex';
+
+    // Wire up button — change href to your actual scene3 file
+    nextBtn.addEventListener('click', () => {
+      window.location.href = 'scene3.html';
+    });
+  }
+
+  // Kick off
+  runTask(0);
+</script>
+</body>
+</html>

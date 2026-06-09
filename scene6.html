@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harshita AI v2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+height:100vh;overflow:hidden;display:flex;justify-content:center;align-items:center;
+background:linear-gradient(135deg,#071330,#0a2351,#132f70);
+color:white;position:relative;
+}
+.sunflower{position:absolute;font-size:90px;opacity:.8;animation:float 6s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+.mini{position:absolute;pointer-events:none;animation:rise 8s linear forwards;}
+@keyframes rise{from{transform:translateY(0);opacity:1}to{transform:translateY(-120vh);opacity:0}}
+.panel{
+width:90%;max-width:850px;padding:35px;background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);border-radius:25px;text-align:center;
+box-shadow:0 0 30px rgba(255,255,255,.15);z-index:10;
+}
+h1{font-size:3rem;margin-bottom:20px;color:#ffd54f;text-shadow:0 0 15px gold,0 0 30px orange;}
+.status{font-size:1.2rem;margin-bottom:25px;}
+.loading{width:100%;height:22px;border-radius:30px;overflow:hidden;border:2px solid #ffd54f;}
+.fill{height:100%;width:0;background:linear-gradient(90deg,gold,orange);transition:width 4s linear;}
+.scan{display:none;margin-top:30px;line-height:2;font-size:1.1rem;}
+.report{
+    display:none;
+
+    margin-top:25px;
+
+    padding:20px;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+    animation:appear 1s;
+
+    max-height:55vh;
+    overflow-y:auto;
+}
+.panel::-webkit-scrollbar{
+    width:8px;
+}
+
+.panel::-webkit-scrollbar-thumb{
+    background:gold;
+    border-radius:20px;
+}
+@keyframes appear{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.result{margin:12px 0;font-size:1.15rem;}
+.warning{margin-top:20px;font-size:1.3rem;color:#ffd54f;}
+.next{display:none;margin-top:25px;padding:15px 35px;border:none;border-radius:50px;cursor:pointer;font-size:18px;background:gold;}
+.next:hover{transform:scale(1.05);}
+</style>
+</head>
+<body>
+
+<div class="sunflower" style="top:5%;left:3%;">🌻</div>
+<div class="sunflower" style="top:10%;right:4%;animation-delay:1s;">🌻</div>
+<div class="sunflower" style="bottom:8%;left:4%;animation-delay:2s;">🌻</div>
+<div class="sunflower" style="bottom:10%;right:4%;animation-delay:3s;">🌻</div>
+<div class="sunflower" style="top:45%;left:1%;font-size:110px;">🌻</div>
+<div class="sunflower" style="top:45%;right:1%;font-size:110px;">🌻</div>
+
+<div class="panel">
+<h1>🌻 HARSHITA AI v2026 🌻</h1>
+
+<div class="status" id="status">Initializing birthday analysis...</div>
+
+<div class="loading"><div class="fill" id="fill"></div></div>
+
+<div class="scan" id="scan">
+<div>😊 Scanning Smile Level... 100%</div>
+<div>💖 Checking Kindness... 100%</div>
+<div>🌻 Detecting Sunshine Energy... 100%</div>
+<div>✨ Measuring Sparkle Factor... 100%</div>
+<div>🎂 Birthday Queen Status... VERIFIED</div>
+</div>
+
+<div class="report" id="report">
+<h2>📊 FINAL REPORT</h2>
+<div class="result">☀️ Smile Brightness : 9999/10</div>
+<div class="result">♾️ Cuteness : Infinite</div>
+<div class="result">💖 Kindness : 100%</div>
+<div class="result">🌻 Sunflower Energy : MAXIMUM</div>
+<div class="result">🎂 Birthday Power : OVERLOADED</div>
+<div class="result">✨ Happiness Level : LIMIT EXCEEDED</div>
+
+<div class="warning">
+⚠️ SYSTEM WARNING<br><br>
+Harshita detected.<br>
+Too much awesomeness ;) AI unable to remain calm.
+</div>
+
+<button class="next" id="next">Reveal Secret Message →</button>
+</div>
+</div>
+
+<script>
+const fill=document.getElementById("fill");
+fill.style.width="100%";
+
+setTimeout(()=>{
+document.getElementById("status").innerHTML="Analysis Complete ✔";
+document.getElementById("scan").style.display="block";
+},4000);
+
+setTimeout(()=>{
+document.getElementById("report").style.display="block";
+document.getElementById("next").style.display="inline-block";
+},7000);
+
+document.getElementById("next").onclick=()=>{
+window.location.href="scene7.html";
+};
+
+setInterval(()=>{
+const flower=document.createElement("div");
+flower.className="mini";
+flower.innerHTML="🌻";
+flower.style.left=Math.random()*100+"vw";
+flower.style.top="100vh";
+flower.style.fontSize=(20+Math.random()*30)+"px";
+document.body.appendChild(flower);
+setTimeout(()=>flower.remove(),8000);
+},1500);
+</script>
+
+</body>
+</html>

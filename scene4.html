@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Enchanted Forest</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+height:100vh;
+overflow:hidden;
+
+background:
+linear-gradient(
+to bottom,
+#081c15,
+#1b4332,
+#2d6a4f
+);
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+position:relative;
+}
+
+/* Fireflies */
+
+.firefly{
+
+position:absolute;
+
+font-size:18px;
+
+animation:float 6s infinite ease-in-out;
+
+}
+
+@keyframes float{
+
+0%{
+transform:
+translate(0,0);
+opacity:.2;
+}
+
+50%{
+transform:
+translate(20px,-40px);
+opacity:1;
+}
+
+100%{
+transform:
+translate(0,0);
+opacity:.2;
+}
+
+}
+
+/* Main card */
+
+.card{
+
+width:90%;
+max-width:700px;
+
+padding:40px;
+
+border-radius:25px;
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:blur(15px);
+
+text-align:center;
+
+color:white;
+
+box-shadow:
+0 10px 40px rgba(0,0,0,.3);
+
+}
+
+.title{
+
+font-size:2rem;
+
+margin-bottom:20px;
+
+color:#ffd166;
+}
+
+.message{
+
+font-size:1.3rem;
+
+line-height:1.8;
+
+min-height:150px;
+
+margin-top:20px;
+}
+
+button{
+
+margin-top:30px;
+
+padding:15px 30px;
+
+border:none;
+
+border-radius:50px;
+
+background:#ffd166;
+
+color:black;
+
+font-size:16px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+transition:.3s;
+}
+
+button:hover{
+
+transform:scale(1.08);
+
+}
+
+.hidden{
+
+display:none;
+}
+
+.fade{
+
+animation:fade 1s;
+}
+
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="title">
+🌲 Enchanted Forest 🌲
+</div>
+
+<div id="message" class="message fade">
+
+The magical sunflower has guided you here...
+✨
+
+</div>
+
+<button id="nextBtn">
+
+Continue →
+
+</button>
+
+</div>
+
+<script>
+
+/* Fireflies */
+
+for(let i=0;i<40;i++){
+
+let f=document.createElement("div");
+
+f.className="firefly";
+
+f.innerHTML="✨";
+
+f.style.left=
+Math.random()*100+"vw";
+
+f.style.top=
+Math.random()*100+"vh";
+
+f.style.animationDuration=
+(3+Math.random()*5)+"s";
+
+document.body.appendChild(f);
+
+}
+
+/* Story messages */
+
+const messages=[
+
+"🌻 Every sunflower in the field knew today was special.",
+
+"✨ The stars have been preparing a surprise for someone wonderful.",
+
+"💖 That someone is you, Harshita.",
+
+"🌈 Every smile you've shared has left a little magic in the world.",
+
+"🦋 Every kind word you've spoken became a butterfly in this forest.",
+
+"☀️ Every happy memory became a ray of sunshine.",
+
+"🎂 And tonight, all that magic is coming back to celebrate you.",
+
+"🥳 But the adventure isn't over yet..."
+];
+
+let current=0;
+
+const messageBox=
+document.getElementById("message");
+
+const btn=
+document.getElementById("nextBtn");
+
+btn.addEventListener("click",()=>{
+
+current++;
+
+if(current<messages.length){
+
+messageBox.classList.remove("fade");
+
+void messageBox.offsetWidth;
+
+messageBox.classList.add("fade");
+
+messageBox.innerHTML=
+messages[current];
+
+}
+else{
+
+window.location.href=
+"scene5.html";
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

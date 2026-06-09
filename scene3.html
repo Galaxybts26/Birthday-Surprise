@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Magical Sunflower Field</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+height:100vh;
+overflow:hidden;
+
+background:
+linear-gradient(
+to bottom,
+#87CEEB 0%,
+#BFEFFF 40%,
+#DFFFD6 100%
+);
+
+position:relative;
+}
+
+/* Title */
+
+.title{
+
+position:absolute;
+
+top:20px;
+width:100%;
+
+text-align:center;
+
+font-size:2rem;
+
+font-weight:bold;
+
+color:#ff9800;
+
+text-shadow:2px 2px 10px white;
+
+z-index:100;
+}
+
+/* Clouds */
+
+.cloud{
+
+position:absolute;
+
+font-size:50px;
+
+animation:cloudMove linear infinite;
+
+}
+
+@keyframes cloudMove{
+
+from{
+left:-20%;
+}
+
+to{
+left:120%;
+}
+
+}
+
+/* Butterflies */
+
+.butterfly{
+
+position:absolute;
+
+font-size:28px;
+
+animation:fly 10s linear infinite;
+
+}
+
+@keyframes fly{
+
+0%{
+transform:
+translate(-100px,0);
+}
+
+50%{
+transform:
+translate(50vw,-80px);
+}
+
+100%{
+transform:
+translate(110vw,0);
+}
+
+}
+
+/* Sparkles */
+
+.sparkle{
+
+position:absolute;
+
+font-size:20px;
+
+animation:
+spark 4s infinite;
+
+}
+
+@keyframes spark{
+
+0%,100%{
+opacity:.2;
+}
+
+50%{
+opacity:1;
+}
+
+}
+
+/* Field */
+
+.field{
+
+position:absolute;
+
+bottom:0;
+
+width:100%;
+
+height:70%;
+
+display:flex;
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+align-items:flex-end;
+
+gap:20px;
+
+padding-bottom:20px;
+}
+
+/* Sunflower */
+
+.sunflower{
+
+font-size:70px;
+
+cursor:pointer;
+
+transition:.4s;
+
+animation:sway 3s ease-in-out infinite;
+
+}
+
+.sunflower:hover{
+
+transform:scale(1.25);
+
+}
+
+@keyframes sway{
+
+0%{
+transform:rotate(-5deg);
+}
+
+50%{
+transform:rotate(5deg);
+}
+
+100%{
+transform:rotate(-5deg);
+}
+
+}
+
+.magic{
+
+filter:
+drop-shadow(0 0 20px gold);
+
+}
+
+/* Popup */
+
+.popup{
+
+position:absolute;
+
+top:50%;
+left:50%;
+
+transform:
+translate(-50%,-50%);
+
+background:white;
+
+padding:30px;
+
+border-radius:20px;
+
+text-align:center;
+
+display:none;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,.2);
+
+z-index:999;
+}
+
+.popup button{
+
+margin-top:20px;
+
+padding:12px 25px;
+
+border:none;
+
+border-radius:30px;
+
+background:#ff9800;
+
+color:white;
+
+cursor:pointer;
+
+font-size:16px;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="title">
+
+🌻 Find The Magical Sunflower 🌻
+
+</div>
+
+<div class="field" id="field"></div>
+
+<div class="popup" id="popup">
+
+<h2>🌻 You Found It! 🌻</h2>
+
+<br>
+
+<p>
+The magical sunflower has chosen you,
+Harshita ✨
+</p>
+
+<button onclick="nextScene()">
+Continue →
+</button>
+
+</div>
+
+<script>
+
+/* Clouds */
+
+for(let i=0;i<5;i++){
+
+let cloud=document.createElement("div");
+
+cloud.className="cloud";
+
+cloud.innerHTML="☁️";
+
+cloud.style.top=
+Math.random()*200+"px";
+
+cloud.style.animationDuration=
+(20+Math.random()*20)+"s";
+
+document.body.appendChild(cloud);
+
+}
+
+/* Butterflies */
+
+for(let i=0;i<6;i++){
+
+let b=document.createElement("div");
+
+b.className="butterfly";
+
+b.innerHTML="🦋";
+
+b.style.top=
+Math.random()*60+"%";
+
+b.style.animationDuration=
+(8+Math.random()*6)+"s";
+
+document.body.appendChild(b);
+
+}
+
+/* Sparkles */
+
+for(let i=0;i<40;i++){
+
+let s=document.createElement("div");
+
+s.className="sparkle";
+
+s.innerHTML="✨";
+
+s.style.left=
+Math.random()*100+"vw";
+
+s.style.top=
+Math.random()*100+"vh";
+
+document.body.appendChild(s);
+
+}
+
+/* Sunflowers */
+
+const field=
+document.getElementById("field");
+
+/* choose magic flower */
+
+const magic=
+Math.floor(Math.random()*24);
+
+for(let i=0;i<24;i++){
+
+let flower=
+document.createElement("div");
+
+flower.className="sunflower";
+
+flower.innerHTML="🌻";
+
+if(i===magic){
+
+flower.classList.add("magic");
+
+flower.onclick=()=>{
+
+flower.style.transform=
+"scale(2) rotate(360deg)";
+
+setTimeout(()=>{
+
+document
+.getElementById("popup")
+.style.display="block";
+
+},800);
+
+};
+
+}else{
+
+flower.onclick=()=>{
+
+flower.innerHTML="🌼";
+
+};
+
+}
+
+field.appendChild(flower);
+
+}
+
+function nextScene(){
+
+window.location.href=
+"scene4.html";
+
+}
+
+</script>
+
+</body>
+</html>

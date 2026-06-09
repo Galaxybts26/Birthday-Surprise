@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<title>Harshita's Cat Garden</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+height:100vh;
+overflow:hidden;
+
+background:
+linear-gradient(
+180deg,
+#ffd6e7 0%,
+#ffe5ec 30%,
+#fff0f5 60%,
+#fff8f0 100%);
+
+
+position:relative;
+}
+
+/* Floating Hearts */
+.message h1{
+
+    font-family:'Pacifico',cursive;
+
+    color:#ff6fa5;
+
+    font-size:4rem;
+}
+.heart{
+
+position:absolute;
+
+font-size:25px;
+
+animation:float 8s linear infinite;
+
+pointer-events:none;
+}
+
+@keyframes float{
+
+from{
+transform:translateY(100vh);
+opacity:1;
+}
+
+to{
+transform:translateY(-120vh);
+opacity:0;
+}
+}
+
+/* Cats */
+.petal{
+    position:absolute;
+    font-size:20px;
+    animation:fall 10s linear infinite;
+}
+
+@keyframes fall{
+
+    from{
+        transform:translateY(-10vh) rotate(0deg);
+    }
+
+    to{
+        transform:translateY(110vh) rotate(360deg);
+    }
+}
+.cat{
+
+position:absolute;
+
+font-size:65px;
+
+animation:bounce 4s ease-in-out infinite;
+}
+
+@keyframes bounce{
+
+0%,100%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-10px);
+}
+}
+
+/* Message */
+
+.message{
+
+position:absolute;
+
+top:50%;
+left:50%;
+
+transform:
+translate(-50%,-50%);
+
+text-align:center;
+
+width:90%;
+max-width:700px;
+}
+
+.message h1{
+
+font-size:3rem;
+
+color:#ff6f91;
+
+margin-bottom:20px;
+}
+
+.message p{
+
+font-size:1.4rem;
+
+color:#555;
+
+line-height:1.8;
+}
+
+/* Button */
+
+.next{
+
+position:absolute;
+
+bottom:40px;
+
+left:50%;
+
+transform:
+translateX(-50%);
+
+padding:15px 35px;
+
+border:none;
+
+border-radius:40px;
+
+background:#ff6f91;
+
+color:white;
+
+font-size:18px;
+
+cursor:pointer;
+}
+
+.next:hover{
+
+transform:
+translateX(-50%)
+scale(1.05);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Cats -->
+
+<div class="cat"
+style="top:15%;left:10%;">
+🤍🐱
+</div>
+
+<div class="cat"
+style="top:18%;right:10%;">
+🐱🤍
+</div>
+
+<div class="cat"
+style="bottom:15%;left:12%;">
+🐱💤
+</div>
+
+<div class="cat"
+style="bottom:18%;right:12%;">
+🐱🐱
+</div>
+
+<div class="cat"
+style="top:65%;left:5%;">
+🐱🦋
+</div>
+
+<div class="cat"
+style="top:65%;right:5%;">
+🐱🌸
+</div>
+
+<!-- Message -->
+
+<div class="message">
+
+<h1>
+🐱 Happy Birthday Harshita 🐱
+</h1>
+
+<p>
+
+Every little cat in this garden
+came together today
+to celebrate someone special.
+
+💖
+
+Someone kind.
+
+🌻
+
+Someone who brings light.
+
+✨
+
+Someone named Harshita but for Mehh its Miss Light🕯️✨.
+
+</p>
+
+</div>
+
+<button
+class="next"
+onclick="window.location.href='scene8.html'">
+
+Open Secret Letter 💌
+
+</button>
+
+<script>
+
+/* Floating Hearts */
+
+setInterval(()=>{
+
+const heart=
+document.createElement("div");
+
+heart.className="heart";
+
+heart.innerHTML=
+["💖","💕","🌸","✨"]
+[Math.floor(Math.random()*4)];
+
+heart.style.left=
+Math.random()*100+"vw";
+
+heart.style.fontSize=
+(20+Math.random()*25)+"px";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},8000);
+
+},500);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Secret Letter For Harshita 💌</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+background: linear-gradient(135deg, #fff1f4 0%, #ffeef8 50%, #f0f4ff 100%);
+font-family:'Poppins',sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+position:relative;
+}
+
+/* Sakura Petals */
+.petal{
+position:absolute;
+font-size:22px;
+pointer-events:none;
+animation:fall linear forwards;
+z-index: 10;
+}
+
+@keyframes fall{
+from{
+transform: translateY(-10vh) rotate(0deg);
+opacity:1;
+}
+to{
+transform: translateY(110vh) rotate(360deg);
+opacity:0;
+}
+}
+
+/* Envelope Styling */
+.envelope{
+position:absolute;
+width:250px;
+height:180px;
+cursor:pointer;
+transition: all 0.8s ease-in-out;
+z-index: 50;
+box-shadow: 0 10px 30px rgba(255, 158, 181, 0.3);
+border-radius: 10px;
+}
+
+.envelope:hover {
+transform: scale(1.05);
+box-shadow: 0 15px 35px rgba(255, 158, 181, 0.4);
+}
+
+.envelopeBody{
+width:100%;
+height:100%;
+background:#ffb6c1;
+border-radius:10px;
+position:absolute;
+}
+
+.flap{
+position:absolute;
+width:100%;
+height:100%;
+background:#ff9eb5;
+clip-path: polygon(0 0, 100% 0, 50% 60%);
+transform-origin:top;
+transition: 0.6s;
+border-radius: 10px 10px 0 0;
+}
+
+.clickText{
+position:absolute;
+margin-top:250px;
+color:#ff6fa5;
+font-size:1.1rem;
+font-weight: 500;
+letter-spacing: 1px;
+animation:pulse 1.5s infinite ease-in-out;
+z-index: 40;
+background: rgba(255, 255, 255, 0.6);
+padding: 8px 20px;
+border-radius: 20px;
+backdrop-filter: blur(5px);
+box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+@keyframes pulse{
+0%, 100%{ transform:scale(1); opacity: 0.9; }
+50%{ transform:scale(1.06); opacity: 1; }
+}
+
+/* New Aesthetic Letter Box */
+.letter{
+position:absolute;
+width:90%;
+max-width:650px;
+height:80vh;
+/* Cute Aesthetic Soft Gradient Background */
+background: linear-gradient(145deg, #fffdfa 0%, #fff5f7 100%);
+padding: 40px 30px;
+border-radius: 30px;
+border: 3px solid rgba(255, 182, 193, 0.4);
+box-shadow: 
+0 20px 50px rgba(255, 111, 165, 0.15),
+inset 0 0 20px rgba(255, 255, 255, 0.6);
+display:none;
+overflow-y:auto;
+z-index:100;
+position: relative;
+}
+
+.letter h1{
+font-family:'Pacifico',cursive;
+color:#ff6fa5;
+text-align:center;
+margin-bottom:30px;
+font-size: 2.2rem;
+text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+}
+
+.text{
+font-size:1.05rem;
+line-height:2.1;
+color:#554448;
+font-weight: 400;
+white-space:pre-wrap;
+padding: 0 10px;
+}
+
+/* Cute UI Cats Container */
+.cat-container {
+display: flex;
+justify-content: center;
+gap: 30px;
+margin-top: 30px;
+margin-bottom: 15px;
+}
+
+.ui-cat {
+font-size: 2.5rem;
+animation: catBounce 2s infinite ease-in-out;
+display: inline-block;
+filter: drop-shadow(0 4px 6px rgba(0,0,0,0.06));
+}
+
+.cat-left { animation-delay: 0s; }
+.cat-right { animation-delay: 0.3s; }
+
+@keyframes catBounce {
+0%, 100% { transform: translateY(0) scale(1); }
+50% { transform: translateY(-12px) scale(1.05); }
+}
+
+.next{
+display:none;
+margin: 20px auto 10px auto;
+padding:15px 40px;
+border:none;
+border-radius:50px;
+background: linear-gradient(90deg, #ff6fa5, #ff8da1);
+color:white;
+cursor:pointer;
+font-size:18px;
+font-weight: 500;
+box-shadow: 0 8px 20px rgba(255, 111, 165, 0.3);
+transition: all 0.3s ease;
+}
+
+.next:hover{
+transform: translateY(-3px);
+box-shadow: 0 12px 25px rgba(255, 111, 165, 0.4);
+}
+
+/* Custom Aesthetic Scrollbar */
+.letter::-webkit-scrollbar{
+width:6px;
+}
+
+.letter::-webkit-scrollbar-thumb{
+background:#ffcbd5;
+border-radius:20px;
+}
+
+.pawTrail{
+text-align:center;
+margin-top:25px;
+font-size:18px;
+opacity:.4;
+letter-spacing: 4px;
+}
+</style>
+</head>
+<body>
+
+<div class="envelope" id="envelope">
+<div class="envelopeBody"></div>
+<div class="flap" id="flap"></div>
+</div>
+
+<div class="clickText">
+💌 Click To Open Your Letter 💌
+</div>
+
+<div class="letter" id="letter">
+<h1>🌸 A Letter For Harshita 🌸</h1>
+
+<div class="text" id="letterText"></div>
+
+<center>
+<div class="pawTrail">
+🐾 🐾 🐾 🐾 🐾 🐾 🐾
+</div>
+
+<div class="cat-container">
+<div class="ui-cat cat-left">🐱💖</div>
+<div class="ui-cat cat-right">🐾🐱</div>
+</div>
+
+<button class="next" id="nextBtn" onclick="window.location.href='scene9.html'">
+🌻 One Last Surprise →
+</button>
+</center>
+</div>
+
+<script>
+/* Falling Sakura Petals effect */
+setInterval(()=>{
+const petal = document.createElement("div");
+petal.className="petal";
+petal.innerHTML = ["🌸","🌸","🌺"][Math.floor(Math.random()*3)];
+petal.style.left = Math.random()*100+"vw";
+petal.style.animationDuration = (6+Math.random()*6)+"s";
+document.body.appendChild(petal);
+
+setTimeout(()=>{
+petal.remove();
+},12000);
+},350);
+
+/* Letter Content */
+const message=` Dear Harshita,
+
+Today isn't special because it's a birthday.
+
+It's special because it celebrates someone
+who brings happiness without even trying.
+
+Someone whose smile can brighten
+even an ordinary day.
+
+Someone whose presence makes people
+feel comfortable and happy.
+
+🌻
+
+May this year bring you:
+
+✨ New adventures
+
+✨ Beautiful memories
+
+✨ Endless laughter
+
+✨ Success in everything you do
+
+✨ Countless reasons to smile
+
+💖
+
+And whenever life feels difficult,
+please remember:
+
+You are stronger than you think.
+
+Kinder than you know.
+
+More special than you realize.
+
+And deserving of every good thing
+that comes your way.
+
+🌸
+
+Thank you for simply being you.
+
+Happy Birthday Miss Harshita.
+
+🌻💖✨
+
+— Someone who wanted
+to make you smile today
+`;
+
+/* Envelope Flip & Unveil Interaction */
+document.getElementById("envelope").addEventListener("click",()=>{
+document.getElementById("flap").style.transform = "rotateX(180deg)";
+
+setTimeout(()=>{
+document.getElementById("envelope").style.opacity="0";
+document.getElementById("envelope").style.transform="scale(0.8)";
+document.querySelector(".clickText").style.display="none";
+}, 400);
+
+setTimeout(()=>{
+document.getElementById("letter").style.display="block";
+typeWriter();
+},1000);
+});
+
+let i=0;
+function typeWriter(){
+const target = document.getElementById("letterText");
+if(i < message.length){
+target.innerHTML += message.charAt(i);
+i++;
+setTimeout(typeWriter, 30);
+} else {
+document.getElementById("nextBtn").style.display="block";
+}
+}
+</script>
+
+</body>
+</html>

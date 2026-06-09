@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Perfect Sunflower Scene</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #fff7b2, #6ec6ff);
+    font-family: sans-serif;
+  }
+
+  .scene {
+    text-align: center;
+  }
+
+  /* 🌻 container */
+  .flower-wrap {
+    width: 320px;
+    height: 320px;
+    transform: scale(0.2);
+    opacity: 0;
+    transition: all 2s ease;
+  }
+
+  .flower-wrap.show {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  /* 🌼 center pulse */
+  .center {
+    animation: pulse 2s infinite ease-in-out;
+    transform-origin: center;
+  }
+
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  /* 🌟 petals bloom */
+  .petal {
+    transform-origin: 160px 160px;
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  .petal.show {
+    animation: bloom 1.2s ease-out forwards;
+  }
+
+  @keyframes bloom {
+    0% {
+      transform: rotate(var(--r)) scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: rotate(var(--r)) scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* 💛 message */
+  .msg {
+    margin-top: 20px;
+    font-size: 26px;
+    color: white;
+    font-weight: bold;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 2s ease;
+    text-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+
+  .msg.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+
+<body>
+
+<div class="scene">
+
+  <div class="flower-wrap" id="flower">
+
+    <!-- 🌻 PERFECT SUNFLOWER SVG -->
+    <svg width="320" height="320" viewBox="0 0 320 320">
+
+  <!-- 🌿 STEM -->
+  <!-- 🌿 STEM (UPGRADED BIG VERSION) -->
+<path
+  d="M160 320 
+     C150 260, 145 220, 155 180 
+     C165 140, 175 100, 165 50"
+  stroke="#1b5e20"
+  stroke-width="16"
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+/>
+
+  <!-- 🍃 LEFT LEAF -->
+  <path
+    d="M150 220
+       C90 200, 80 260, 150 270
+       C120 250, 130 230, 150 220"
+    fill="#2ecc71"
+  />
+
+  <!-- 🍃 RIGHT LEAF -->
+  <path
+    d="M170 200
+       C240 180, 250 250, 170 270
+       C200 245, 190 220, 170 200"
+    fill="#27ae60"
+  />
+
+  <!-- 🌻 PETALS -->
+  <g id="petals">
+
+    <g class="petal" style="--r:0deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:15deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:30deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:45deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:60deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
+    </g>
+
+    <g class="petal" style="--r:75deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
+    </g>
+
+    <g class="petal" style="--r:90deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:105deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:120deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
+    </g>
+
+    <g class="petal" style="--r:135deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
+    </g>
+
+    <g class="petal" style="--r:150deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:165deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:180deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
+    </g>
+
+    <g class="petal" style="--r:195deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
+    </g>
+
+    <g class="petal" style="--r:210deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:225deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:240deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
+    </g>
+
+    <g class="petal" style="--r:255deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
+    </g>
+
+    <g class="petal" style="--r:270deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:285deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:300deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
+    </g>
+
+    <g class="petal" style="--r:315deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffb300"/>
+    </g>
+
+    <g class="petal" style="--r:330deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+    <g class="petal" style="--r:345deg">
+      <ellipse cx="160" cy="70" rx="18" ry="55" fill="#ffcc00"/>
+    </g>
+
+  </g>
+
+  <!-- 🌼 CENTER -->
+  <circle class="center" cx="160" cy="160" r="55" fill="#3b2a14"/>
+
+</svg>
+
+  </div>
+
+  <div class="msg" id="msg">
+    🌻 For Harshita — You are my sunshine in every universe 🕯️💛
+  </div>
+
+</div>
+
+<script>
+  const flower = document.getElementById("flower");
+  const petals = document.querySelectorAll(".petal");
+  const msg = document.getElementById("msg");
+
+  window.onload = () => {
+
+    setTimeout(() => {
+      flower.classList.add("show");
+
+      petals.forEach((p, i) => {
+        setTimeout(() => {
+          p.classList.add("show");
+        }, i * 80);
+      });
+
+    }, 600);
+
+    setTimeout(() => {
+      msg.classList.add("show");
+    }, 2500);
+  };
+</script>
+
+</body>
+</html>
